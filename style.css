@@ -567,7 +567,7 @@ h1 {
 }
 
 p {
-  font-size: 6.2em;
+  font-size: 1.2em;
   color: #666;
 }
 
@@ -580,3 +580,4 @@ footer {
   backdrop-filter: blur(6px);
   background: rgba(255, 0, 0, 0.22);
 }
+
