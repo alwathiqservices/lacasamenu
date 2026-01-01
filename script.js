@@ -1,236 +1,582 @@
-// ====== الصوت ======
-const clickSound = document.getElementById("clickSound");
-function playClick() {
-  if (!clickSound) return;
-  clickSound.currentTime = 0;
-  clickSound.volume = 0.3;
-  clickSound.play().catch(()=>{});
+* {
+  box-sizing: border-box;
+  font-family: "Cairo", sans-serif;
 }
 
-// ====== السلة ======
-let cart = [];
+body {
+  margin: 0;
+  background: #f6f6f6;
+  color: #222;
+}
 
-// ====== الانتقال للقسم ======
-function goTo(id) {
-  playClick();
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+/* ===== الهيدر ===== */
+.hero {
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.248),
+      rgba(184, 0, 0, 0.347)
+    ),
+    url("images/hero-bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  text-align: center;
+  color: #ffffff;
+  padding: 20px 20px;
+}
+
+/* الشعار */
+.logo-circle {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 0px;
+  border-radius: 100%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero h1 {
+  font-size: 80px;     /* ⬅️ كبره */
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 14px 0 18px;
+}
+
+/* ===== الأقسام (الصور الرئيسية فقط) ===== */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.cat-card {
+  background: #dedede;
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(252, 252, 252, 0.12);
+  transition: transform 0.2s ease;
+}
+
+.cat-card:hover {
+  transform: translateY(-3px);
+}
+
+.cat-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  display: block;
+}
+
+.cat-card span {
+  display: block;
+  padding: 12px 8px;
+  font-weight: 700;
+  color: #ad0909;
+  background: hwb(0 88% 0%);
+}
+
+/* ===== الأقسام الداخلية (المنيو) ===== */
+.section {
+  padding: 10px;
+}
+
+.section h2 {
+  color: #bf0000;
+  margin-bottom: 2px;
+}
+
+/* عنصر الأكلة */
+.item {
+  background: hwb(0 88% 0%);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 10px rgba(175, 0, 0, 0.06);
+}
+
+/* اسم الأكلة */
+.item span,
+.item .item-name {
+  font-weight: 6700;
+}
+
+/* أزرار الأسعار */
+.options button,
+.item button {
+  background: #b80000;
+  color: #f2f0f0;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 10px;
+  margin: 2px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+/* ===== منع أي صور داخل الأكلات ===== */
+.item img,
+.item::before,
+.item::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* ===== زر السلة الاحترافي ===== */
+#cartBtn {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(100deg, #b80000, #e53935);
+  color: #fff;
+  border: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 26px;
+  display: none;
+  z-index: 9999;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  animation: cartPulse 1.6s infinite;
+}
+
+/* حركة النبض (ارتجاج خفيف جميل) */
+@keyframes cartPulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 0 0 0 rgba(161, 0, 0, 0.6);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.08);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 0 0 18px rgba(189, 6, 6, 0);
   }
 }
 
-// ====== إضافة عنصر ======
-function add(name, option, price) {
-  playClick();
+/* عند اللمس */
+#cartBtn:active {
+  transform: translateX(-50%) scale(0.95);
+}
 
-  const found = cart.find(
-    i => i.name === name && i.option === option
-  );
+/* ===== السلة ===== */
+.cart {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffe4e4;
+  padding: 15px;
+  border-radius: 20px 20px 0 0;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+}
 
-  if (found) {
-    found.qty++;
-  } else {
-    cart.push({
-      name,
-      option,
-      price,
-      qty: 1
-    });
+.hidden {
+  display: none;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.total {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.cart input {
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* أزرار السلة */
+.send {
+  background: rgb(0, 152, 0);
+  color: #ffffff;
+  border: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.close {
+  background: #bf0000;
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 5px;
+}
+/* منع تكبير الشاشة عند الكتابة */
+input, textarea {
+  font-size: 16px !important; /* شرط أساسي لـ iOS */
+}
+.cart {
+  animation: slideUp .3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
   }
-
-  document.getElementById("cartBtn").style.display = "block";
-  renderCart();
-}
-
-// ====== عرض السلة ======
-function renderCart() {
-  const box = document.getElementById("cartItems");
-  const totalEl = document.getElementById("total");
-
-  if (!box || !totalEl) return;
-
-  box.innerHTML = "";
-  let total = 0;
-
-  cart.forEach((item, index) => {
-    const itemTotal = item.price * item.qty;
-    total += itemTotal;
-
-    box.innerHTML += `
-      <div class="cart-item">
-        <div class="cart-info">
-          <strong>${item.name}</strong>
-          <div class="cart-option">${item.option}</div>
-          <div class="cart-price">${itemTotal} د.ع</div>
-        </div>
-
-        <div class="cart-actions">
-          <button onclick="decrease(${index})">−</button>
-          <span>${item.qty}</span>
-          <button onclick="increase(${index})">+</button>
-          <button onclick="removeItem(${index})">🗑</button>
-        </div>
-      </div>
-    `;
-  });
-
-  totalEl.innerText = total;
-}
-
-// ====== زيادة الكمية ======
-function increase(index) {
-  playClick();
-  cart[index].qty++;
-  renderCart();
-}
-
-// ====== تقليل الكمية ======
-function decrease(index) {
-  playClick();
-  cart[index].qty--;
-  if (cart[index].qty <= 0) {
-    cart.splice(index, 1);
-  }
-  renderCart();
-}
-
-// ====== حذف عنصر ======
-function removeItem(index) {
-  playClick();
-  cart.splice(index, 1);
-  renderCart();
-
-  if (cart.length === 0) {
-    document.getElementById("cartBtn").style.display = "none";
+  to {
+    transform: translateY(0);
   }
 }
+/* الشكل الافتراضي */
+.cart input {
+  border: 2px solid #c0392b; /* أحمر */
+  transition: border-color 0.3s;
+}
 
-function toggleCart() {
-  const cart = document.getElementById("cart");
-  const cartBtn = document.getElementById("cartBtn");
+/* صحيح */
+.cart input.valid {
+  border-color: #00af49; /* أخضر */
+}
 
-  cart.classList.toggle("hidden");
+/* خطأ */
+.cart input.invalid {
+  border-color: #c21300; /* أحمر */
+}
+.cart input.invalid {
+  animation: shake 0.2s linear;
+}
 
-  // إذا السلة مفتوحة أخفي زر السلة
-  if (!cart.classList.contains("hidden")) {
-    cartBtn.style.display = "none";
-  } else {
-    cartBtn.style.display = "block";
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+/* صندوق المعلومات */
+.info-box {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+/* عنصر معلومات */
+.info {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* عند المرور */
+.info:hover {
+  background: #fff;
+  color: #b80000;
+  transform: scale(1.05);
+}
+
+/* الهاتف */
+.phone {
+  font-weight: bold;
+}
+
+/* الوقت */
+.time {
+  cursor: default;
+}
+/* ===== شريط المعلومات ===== */
+.info-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+
+.info-pill .icon {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* منع تغيير اللون عند الضغط */
+.info-pill:visited,
+.info-pill:hover {
+  color: rgba(255,255,255,0.9);
+}
+/* ===== صندوق المعلومات ===== */
+.info-box {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+/* الكبسولة */
+.info-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(247, 247, 247, 0.156);
+  backdrop-filter: blur(6px);
+  color: rgb(255, 255, 255);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 30px;
+  text-decoration: none;
+  justify-content: center;
+}
+
+
+/* أيقونة */
+.info-pill .icon {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* عند اللمس */
+.info-pill:hover {
+  background: rgba(255,255,255,0.28);
+  transform: scale(1.03);
+}
+
+/* تحسين للهاتف */
+@media (max-width: 480px) {
+  .info-pill {
+    font-size: 14px;
+    padding: 11px 16px;
+  }
+}
+/* ===== أنميشن دخول الهيدر ===== */
+.hero {
+  animation: heroFade 0.9s ease forwards;
+}
+
+/* أنميشن الشعار */
+.logo-circle {
+  animation: logoPop 0.9s ease forwards;
+}
+
+/* أنميشن العنوان */
+.hero h1 {
+  opacity: 0;
+  animation: textUp 0.8s ease forwards;
+  animation-delay: 0.3s;
+}
+
+/* أنميشن كبسولات المعلومات */
+.info-pill {
+  opacity: 0;
+  animation: pillFade 0.6s ease forwards;
+}
+
+/* تأخير بسيط بين كل كبسولة */
+.info-pill:nth-child(1) { animation-delay: 0.5s; }
+.info-pill:nth-child(2) { animation-delay: 0.65s; }
+.info-pill:nth-child(3) { animation-delay: 0.8s; }
+
+/* ===== Keyframes ===== */
+@keyframes heroFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-// ====== إرسال الطلب واتساب ======
-function send() {
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const address = document.getElementById("address").value.trim();
-
-  // تحقق البيانات
-  if (!name) {
-    alert("الاسم إجباري");
-    return;
+@keyframes logoPop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
   }
-
-  if (!/^07\d{9}$/.test(phone)) {
-    alert("رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 07");
-    return;
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
-
-  if (!address) {
-    alert("العنوان إجباري");
-    return;
-  }
-
-  if (cart.length === 0) {
-    alert("السلة فارغة");
-    return;
-  }
-
-  let message = `طلب جديد 🍔%0A`;
-  message += `الاسم: ${name}%0A`;
-  message += `الهاتف: ${phone}%0A`;
-  message += `العنوان: ${address}%0A`;
-  message += `--------------------%0A`;
-
-  cart.forEach(item => {
-    message += `${item.name} (${item.option}) × ${item.qty}%0A`;
-  });
-
-  message += `--------------------%0A`;
-  message += `المجموع: ${document.getElementById("total").innerText} د.ع`;
-
-  // غيّر الرقم لرقم المطعم
-  const whatsappNumber = "9647811100884";
-
-  window.open(
-    `https://wa.me/${whatsappNumber}?text=${message}`,
-    "_blank"
-  );
-}
-const nameInput = document.getElementById("name");
-const phoneInput = document.getElementById("phone");
-const addressInput = document.getElementById("address");
-
-// الاسم
-nameInput.addEventListener("input", () => {
-  if (nameInput.value.trim().length >= 3) {
-    setValid(nameInput);
-  } else {
-    setInvalid(nameInput);
-  }
-});
-
-// العنوان
-addressInput.addEventListener("input", () => {
-  if (addressInput.value.trim().length >= 5) {
-    setValid(addressInput);
-  } else {
-    setInvalid(addressInput);
-  }
-});
-
-// رقم الهاتف (11 رقم + يبدأ 07)
-phoneInput.addEventListener("input", () => {
-  const phoneRegex = /^07\d{9}$/;
-  if (phoneRegex.test(phoneInput.value)) {
-    setValid(phoneInput);
-  } else {
-    setInvalid(phoneInput);
-  }
-});
-
-function setValid(input) {
-  input.classList.add("valid");
-  input.classList.remove("invalid");
 }
 
-function setInvalid(input) {
-  input.classList.add("invalid");
-  input.classList.remove("valid");
-}
-// القائمة
-const menuBtn = document.getElementById("menuBtn");
-const menuPanel = document.getElementById("menuPanel");
-
-menuBtn.onclick = () => {
-  menuPanel.classList.toggle("hidden");
-};
-
-// النوافذ
-function openAbout() {
-  document.getElementById("aboutModal").classList.remove("hidden");
+@keyframes textUp {
+  from {
+    transform: translateY(15px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-function openDeveloper() {
-  document.getElementById("devModal").classList.remove("hidden");
+@keyframes pillFade {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* زر القائمة */
+.top-menu {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  z-index: 97;
 }
 
-function closeModal() {
-  document.querySelectorAll(".modal").forEach(m => m.classList.add("hidden"));
+#menuBtn {
+  background: rgba(255, 255, 255, 0.286);
+  color: #ffffff;
+  border: none;
+  font-size: 18px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-// دارك مود
-const toggle = document.getElementById("darkToggle");
-toggle.onchange = () => {
-  document.body.classList.toggle("dark", toggle.checked);
-};
+/* لوحة الخيارات */
+.menu-panel {
+  margin-top: 10px;
+  background: #ffffff85;
+  border-radius: 12px;
+  padding: 15px;
+  width: 160px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.61);
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: none;
+  text-align: right;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* النوافذ */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal-box button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #b80000;
+  color: #fff;
+}
+
+/* أيقونات المطور */
+.dev-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px 0;
+}
+
+.icon-btn img {
+  width: 38px;
+}
+
+/* إخفاء */
+.hidden {
+  display: none;
+}
+
+/* 🌙 الوضع الليلي */
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark .modal-box,
+body.dark .menu-panel {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+/* ===== صفحة الترحيب ===== */
+.welcome-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.logo {
+  width: 15px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #333;
+}
+
+p {
+  font-size: 6.2em;
+  color: #666;
+}
+
+footer {
+  margin-top: 30px;
+  font-size: 1.5em;
+  color: #333;
+}
+.info {
+  backdrop-filter: blur(6px);
+  background: rgba(255, 0, 0, 0.22);
+}
