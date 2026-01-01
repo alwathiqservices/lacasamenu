@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>لاكاسا برجر</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<div class="modal hidden" id="aboutModal">
+  <div class="modal-box">
+    <h3>عن مطعم لاكاسا برجر</h3>
+    <p>
+      مطعم لاكاسا برجر يقدم أشهى الوجبات السريعة من البرجر،
+      البيتزا، الريزو، والمأكولات الغربية بجودة عالية وطعم مميز،
+      مع خدمة سريعة تناسب جميع الأذواق.
+    <div class="dev-links">
+      <a href="https://wa.me/9647811100884" target="_blank" class="icon-btn">
+        <img src="images/whatsapp.jpg">
+      </a>
+
+      <a href="https://instagram.com/lacasa_burger1" target="_blank" class="icon-btn">
+        <img src="images/instagram.jpg">
+      </a>
+
+      <a href="https://www.facebook.com/share/19xPqXkTJr/?mibextid=wwXIfr" target="_blank" class="icon-btn">
+        <img src="images/facebook.jpg">
+      </a>
+
+    </div>
+    </p>
+    <button onclick="closeModal()">إغلاق</button>
+  </div>
+</div>
+<div class="modal hidden" id="devModal">
+  <div class="modal-box">
+    <h3>المطور</h3>
+    <p>شركة الواثق الإلكترونية م. ميثاق احمد</p>
+
+    <div class="dev-links">
+      <a href="https://wa.me/9647884084042" target="_blank" class="icon-btn">
+        <img src="images/whatsapp.jpg">
+      </a>
+
+      <a href="https://instagram.com/alwathiqservices" target="_blank" class="icon-btn">
+        <img src="images/instagram.jpg">
+      </a>
+    </div>
+
+    <button onclick="closeModal()">إغلاق</button>
+  </div>
+</div>
+<body>
+
+<audio id="clickSound" src="sounds/click.mp3" preload="auto"></audio>
+<!-- زر القائمة -->
+<div class="top-menu">
+  <button id="menuBtn">☰</button>
+
+  <div class="menu-panel hidden" id="menuPanel">
+    <label class="menu-item">
+    
+
+    <button class="menu-item" onclick="openAbout()">
+      عن المطعم
+    </button>
+
+    <button class="menu-item" onclick="openDeveloper()">
+      المطور
+    </button>
+  </div>
+</div>
+<header class="hero">
+  <div class="logo-circle">
+    <img src="images/logo.jpg" alt="LaCasa Burger">
+</div>
+  
+<h7>لاكاسا برجر</h7>
+
+<div class="info-box">
+
+  <div class="info-pill time">
+    <span>من الـ10 صباحاً إلى الـ3 ليلاً</span>
+        <span class="icon">🕐</span>
+
+  </div>
+
+  <a class="info-pill phone" href="tel:+9647811100884">
+    <span>+964 781 110 0884</span>
+        <span class="icon">📞</span>
+
+  </a>
+
+  <a class="info-pill location"
+     href="https://maps.app.goo.gl/YxEACxanAT7V9XEH8?g_st=ic"
+     target="_blank">
+    <span>الفلوجة – شارع الثرثار</span>
+        <span class="icon">📍</span>
+
+  </a>
+
+</div>
+
+</header>
+
+<section class="categories">
+
+  <div class="cat-card" onclick="goTo('pizza')">
+    <img src="images/pizza.jpg" alt="">
+    <span>البيتزا</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('burger')">
+    <img src="images/burger.jpg" alt="">
+    <span>البرجر</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('rizzo')">
+    <img src="images/rizzo.jpg" alt="">
+    <span>الريزو</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('saj')">
+    <img src="images/saj.jpg" alt="">
+    <span>الصاج</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('western')">
+    <img src="images/western.jpg" alt="">
+    <span>الغربي</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('kfc')">
+    <img src="images/kfc.jpg" alt="">
+    <span>الكنتاكي</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('diet')">
+    <img src="images/diet.jpg" alt="">
+    <span>الدايت</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('fries')">
+    <img src="images/fries.jpg" alt="">
+    <span>الفنكر</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('sides')">
+    <img src="images/sides.jpg" alt="">
+    <span>المقبلات</span>
+  </div>
+
+  <div class="cat-card" onclick="goTo('drinks')">
+    <img src="images/drinks.jpg" alt="">
+    <span>المشروبات</span>
+  </div>
+
+</section>
+
+
+
+<!-- ================= البيتزا ================= -->
+<section id="pizza" class="section">
+<h2>🍕 قسم البيتزا</h2>
+<div class="item">
+  <span>بيتزا باللحم</span>
+  <div class="options">
+
+    <button class="price-btn" onclick="add('بيتزا باللحم','صغير',6000)">
+      <span class="price">6000</span>
+      <span class="size">صغير</span>
+    </button>
+
+    <button class="price-btn" onclick="add('بيتزا باللحم','وسط',8000)">
+      <span class="price">8000</span>
+      <span class="size">وسط</span>
+    </button>
+
+    <button class="price-btn" onclick="add('بيتزا باللحم','كبير',13000)">
+      <span class="price">13000</span>
+      <span class="size">كبير</span>
+    </button>
+
+  </div>
+</div></div></div>
+
+<div class="item"><span>بيتزا بالدجاج</span><div class="options">
+<button class="price-btn" onclick="add('بيتزا بالدجاج','صغير',5000)">
+  <span class="price">5000</span>
+  <span class="size">صغير</span>
+</button>
+<button class="price-btn" onclick="add('بيتزا بالدجاج','وسط',7000)">
+  <span class="price">7000</span>
+  <span class="size">وسط</span>
+</button>
+<button class="price-btn" onclick="add('بيتزا بالدجاج','كبير',12000)">
+  <span class="price">12000</span>
+  <span class="size">كبير</span>
+</button>
+</div></div>
+
+<div class="item"><span>بيتزا مارغريتا</span><div class="options">
+<button class="price-btn" onclick="add('بيتزا مارغريتا','صغير',5000)">
+  <span class="price">5000</span>
+  <span class="size">صغير</span>
+</button>
+<button class="price-btn" onclick="add('بيتزا مارغريتا','وسط',7000)">
+  <span class="price">7000</span>
+  <span class="size">وسط</span>
+</button>
+<button class="price-btn" onclick="add('بيتزا مارغريتا','كبير',12000)">
+  <span class="price">12000</span>
+  <span class="size">كبير</span>
+</button>
+</div></div>
+
+<div class="item"><span>بيتزا لاكاسا</span><div class="options">
+<button class="price-btn" onclick="add('بيتزا لاكاسا','كبير',14000)">
+  <span class="price">14000</span>
+  <span class="size">كبير</span>
+</button>
+</div></div>
+
+<div class="item"><span>بيتزا ببروني</span><div class="options">
+<button class="price-btn" onclick="add('بيتزا ببروني','كبير',15000)">
+  <span class="price">15000</span>
+  <span class="size">كبير</span>
+</button>
+</div></div>
+</section>
+
+<!-- ================= البرجر ================= -->
+<section id="burger" class="section">
+<h2>🍔 قسم البرجر</h2>
+
+<div class="item"><span>كلاسك لحم</span><div class="options">
+<button class="price-btn" onclick="add('كلاسك لحم','مفرد',4000)">
+  <span class="price">4000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('كلاسك لحم','وجبة',5500)">
+  <span class="price">5500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>كلاسك دجاج</span><div class="options">
+<button class="price-btn" onclick="add('كلاسك دجاج','مفرد',3500)">
+  <span class="price">3500</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('كلاسك دجاج','وجبة',5000)">
+  <span class="price">5000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>جيس برجر</span><div class="options">
+<button class="price-btn" onclick="add('جيس برجر','مفرد',4500)">
+  <span class="price">4500</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('جيس برجر','وجبة',6000)">
+  <span class="price">6000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>مشروح برجر</span><div class="options">
+<button class="price-btn" onclick="add('مشروح برجر','مفرد',4500)">
+  <span class="price">4500</span>
+  <span class="size">مفرد</span>
+</button>
+</div></div>
+
+<div class="item"><span>مشروم برجر</span><div class="options">
+<button class="price-btn" onclick="add('مشروم برجر','وجبة',6000)">
+  <span class="price">6000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>مكسيكي برجر</span><div class="options">
+<button class="price-btn" onclick="add('مكسيكي برجر','مفرد',4500)">
+  <span class="price">4500</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('مكسيكي برجر','وجبة',6000)">
+  <span class="price">6000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>محشي برجر (بيف)</span><div class="options">
+<button class="price-btn" onclick="add('محشي برجر بيف','مفرد',6000)">
+  <span class="price">6000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('محشي برجر بيف','وجبة',7500)">
+  <span class="price">7500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>محشي جبن</span><div class="options">
+<button class="price-btn" onclick="add('محشي جبن','مفرد',5000)">
+  <span class="price">5000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('محشي جبن','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>فطر برجر</span><div class="options">
+<button class="price-btn" onclick="add('فطر برجر','مفرد',5000)">
+  <span class="price">5000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('فطر برجر','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>موسكو برجر</span><div class="options">
+<button class="price-btn" onclick="add('موسكو برجر','مفرد',4500)">
+  <span class="price">4500</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('موسكو برجر','وجبة',6000)">
+  <span class="price">6000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>موسكو برجر دجاج</span><div class="options">
+<button class="price-btn" onclick="add('موسكو برجر دجاج','مفرد',3500)">
+  <span class="price">3500</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('موسكو برجر دجاج','وجبة',5000)">
+  <span class="price">5000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>موسكو جيزي برجر</span><div class="options">
+<button class="price-btn" onclick="add('موسكو جيزي برجر','مفرد',5000)">
+  <span class="price">5000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('موسكو جيزي برجر','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>موسكو مشروم برجر</span><div class="options">
+<button class="price-btn" onclick="add('موسكو مشروم برجر','مفرد',5000)">
+  <span class="price">5000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('موسكو مشروم برجر','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>موسكو مكسيكي برجر</span><div class="options">
+<button class="price-btn" onclick="add('موسكو مكسيكي برجر','مفرد',5000)">
+  <span class="price">5000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('موسكو مكسيكي برجر','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>لاكاسا برجر</span><div class="options">
+<button class="price-btn" onclick="add('لاكاسا برجر','مفرد',6500)">
+  <span class="price">6500</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('لاكاسا برجر','وجبة',8000)">
+  <span class="price">8000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>بروفيسور برجر</span><div class="options">
+<button class="price-btn" onclick="add('بروفيسور برجر','مفرد',6000)">
+  <span class="price">6000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('بروفيسور برجر','وجبة',7500)">
+  <span class="price">7500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>طوكيو برجر</span><div class="options">
+<button class="price-btn" onclick="add('طوكيو برجر','وجبة',8000)">
+  <span class="price">8000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>اليسون رمان برجر</span><div class="options">
+<button class="price-btn" onclick="add('اليسون رمان برجر','مفرد',5000)">
+  <span class="price">5000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('اليسون رمان برجر','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>دوريتوس برجر</span><div class="options">
+<button class="price-btn" onclick="add('دوريتوس برجر','مفرد',5000)">
+  <span class="price">5000</span>
+  <span class="size">مفرد</span>
+</button>
+<button class="price-btn" onclick="add('دوريتوس برجر','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+</section>
+
+<!-- ================= الريزو ================= -->
+<section id="rizzo" class="section">
+<h2>🍚 قسم الريزو</h2>
+
+<div class="item"><span>ريزو كلاسيك</span><div class="options"><button onclick="add('ريزو كلاسيك','طبق',5000)">5000</button></div></div>
+<div class="item"><span>ريزو مدخن</span><div class="options"><button onclick="add('ريزو مدخن','طبق',5500)">5500</button></div></div>
+<div class="item"><span>ريزو شاورما لحم</span><div class="options"><button onclick="add('ريزو شاورما لحم','طبق',6500)">6500</button></div></div>
+<div class="item"><span>ريزو شاورما دجاج</span><div class="options"><button onclick="add('ريزو شاورما دجاج','طبق',6500)">6500</button></div></div>
+<div class="item"><span>ريزو أعشاب</span><div class="options"><button onclick="add('ريزو أعشاب','طبق',6000)">6000</button></div></div>
+</section>
+
+<!-- ================= الصاج ================= -->
+<section id="saj" class="section">
+<h2>🌯 قسم الصاج</h2>
+
+<div class="item"><span>صاج لحم</span><div class="options">
+<button class="price-btn" onclick="add('صاج لحم','ساندويش',4000)">
+  <span class="price">4000</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('صاج لحم','وجبة',5500)">
+  <span class="price">5500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>صاج دجاج</span><div class="options">
+<button class="price-btn" onclick="add('صاج دجاج','ساندويش',3500)">
+  <span class="price">3500</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('صاج دجاج','وجبة',5000)">
+  <span class="price">5000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>صاج إيطالي</span><div class="options">
+<button class="price-btn" onclick="add('صاج إيطالي لحم','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+<button class="price-btn" onclick="add('صاج إيطالي دجاج','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+</section>
+
+<!-- ================= الغربي ================= -->
+<section id="western" class="section">
+<h2>🌮 قسم الغربي</h2>
+
+<div class="item"><span>فاهيتا لحم</span><div class="options">
+<button class="price-btn" onclick="add('فاهيتا لحم','ساندويش',4000)">
+  <span class="price">4000</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('فاهيتا لحم','وجبة',5500)">
+  <span class="price">5500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>فاهيتا دجاج</span><div class="options">
+<button class="price-btn" onclick="add('فاهيتا دجاج','ساندويش',3500)">
+  <span class="price">3500</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('فاهيتا دجاج','وجبة',5000)">
+  <span class="price">5000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>مكسيكي لحم</span><div class="options">
+<button class="price-btn" onclick="add('مكسيكي لحم','ساندويش',4500)">
+  <span class="price">4500</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('مكسيكي لحم','وجبة',6000)">
+  <span class="price">6000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>هوت دوغ</span><div class="options">
+<button class="price-btn" onclick="add('هوت دوغ','ساندويش',3000)">
+  <span class="price">3000</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('هوت دوغ','وجبة',4500)">
+  <span class="price">4500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>هوت دوغ فرانكفورت</span><div class="options">
+<button class="price-btn" onclick="add('هوت دوغ فرانكفورت','ساندويش',3500)">
+  <span class="price">3500</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('هوت دوغ فرانكفورت','وجبة',5000)">
+  <span class="price">5000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+</section>
+
+<!-- ================= مقرمشات ================= -->
+<section id="crispy" class="section">
+<h2>🍗 مقرمشات الدجاج</h2>
+
+<div class="item"><span>زنكر</span><div class="options">
+<button class="price-btn" onclick="add('زنكر','ساندويش',4000)">
+  <span class="price">4000</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('زنكر','وجبة',5500)">
+  <span class="price">5500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>زنكر سوبريم</span><div class="options">
+<button class="price-btn" onclick="add('زنكر سوبريم','ساندويش',4500)">
+  <span class="price">4500</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('زنكر سوبريم','وجبة',6000)">
+  <span class="price">6000</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>فلر</span><div class="options">
+<button class="price-btn" onclick="add('فلر','ساندويش',4000)">
+  <span class="price">4000</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('فلر','وجبة',5500)">
+  <span class="price">5500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>بوخارست</span><div class="options">
+<button class="price-btn" onclick="add('بوخارست','ساندويش',5000)">
+  <span class="price">5000</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('بوخارست','وجبة',6500)">
+  <span class="price">6500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+
+<div class="item"><span>مطافي</span><div class="options">
+<button class="price-btn" onclick="add('مطافي','ساندويش',4000)">
+  <span class="price">4000</span>
+  <span class="size">ساندويش</span>
+</button>
+<button class="price-btn" onclick="add('مطافي','وجبة',5500)">
+  <span class="price">5500</span>
+  <span class="size">وجبة</span>
+</button>
+</div></div>
+</section>
+
+<!-- ================= كنتاكي ================= -->
+<section id="kfc" class="section">
+<h2>🍗 الكنتاكي</h2>
+
+<div class="item"><span>كنتاكي (وجبة)</span><div class="options">
+<button class="price-btn" onclick="add('كنتاكي','3 قطع',7000)">
+  <span class="price">7000</span>
+  <span class="size">3 قطع</span>
+</button>
+<button class="price-btn" onclick="add('كنتاكي','6 قطع',12000)">
+  <span class="price">12000</span>
+  <span class="size">6 قطع</span>
+</button>
+<button class="price-btn" onclick="add('كنتاكي','9 قطع',17000)">
+  <span class="price">17000</span>
+  <span class="size">9 قطع</span>
+</button>
+<button class="price-btn" onclick="add('كنتاكي','12 قطعة',22000)">
+  <span class="price">22000</span>
+  <span class="size">12 قطعة</span>
+</button>
+<button class="price-btn" onclick="add('كنتاكي','15 قطعة',27000)">
+  <span class="price">27000</span>
+  <span class="size">15 قطعة</span>
+</button>
+</div></div>
+
+<div class="item"><span>ستربس (وجبة)</span><div class="options">
+<button class="price-btn" onclick="add('ستربس','5 قطع',7000)">
+  <span class="price">7000</span>
+  <span class="size">5 قطع</span>
+</button>
+<button class="price-btn" onclick="add('ستربس','7 قطع',10000)">
+  <span class="price">10000</span>
+  <span class="size">7 قطع</span>
+</button>
+</div></div>
+</section>
+
+<!-- ================= الدايت ================= -->
+<section id="diet" class="section">
+<h2>🥗 أطباق الدايت</h2>
+
+<div class="item"><span>فاهيتا دجاج دايت</span><div class="options"><button onclick="add('فاهيتا دجاج دايت','طبق',6000)">6000</button></div></div>
+<div class="item"><span>فلاديفيا لحم دايت</span><div class="options"><button onclick="add('فلاديفيا لحم دايت','طبق',8000)">8000</button></div></div>
+<div class="item"><span>برجر لحم دايت</span><div class="options"><button onclick="add('برجر لحم دايت','طبق',6000)">6000</button></div></div>
+<div class="item"><span>برجر دجاج دايت</span><div class="options"><button onclick="add('برجر دجاج دايت','طبق',5000)">5000</button></div></div>
+</section>
+
+<!-- ================= الفنكر ================= -->
+<section id="fries" class="section">
+<h2>🍟 الفنكر</h2>
+
+<div class="item"><span>فرايز</span><div class="options">
+<button class="price-btn" onclick="add('فرايز','صغير',1000)">
+  <span class="price">1000</span>
+  <span class="size">صغير</span>
+</button>
+<button class="price-btn" onclick="add('فرايز','صغير بالجبن',1500)">
+  <span class="price">1500</span>
+  <span class="size">صغير بالجبن</span>
+</button>
+<button class="price-btn" onclick="add('فرايز','صغير بالصوص',1500)">
+  <span class="price">1500</span>
+  <span class="size">صغير بالصوص</span>
+</button>
+<button class="price-btn" onclick="add('فرايز','كبير',2000)">
+  <span class="price">2000</span>
+  <span class="size">كبير</span>
+</button>
+<button class="price-btn" onclick="add('فرايز','كبير بالجبن',2500)">
+  <span class="price">2500</span>
+  <span class="size">كبير بالجبن</span>
+</button>
+<button class="price-btn" onclick="add('فرايز','كبير بالصوص',2500)">
+  <span class="price">2500</span>
+  <span class="size">كبير بالصوص</span>
+</button>
+</div></div>
+
+<div class="item"><span>فرايز مشروم</span><div class="options"><button class="price-btn" onclick="add('فرايز مشروم','عادي',3000)">
+  <span class="price">3000</span>
+  <span class="size">عادي</span>
+</button></div></div>
+<div class="item"><span>فرايز باللحم</span><div class="options"><button class="price-btn" onclick="add('فرايز باللحم','عادي',3000)">
+  <span class="price">3000</span>
+  <span class="size">عادي</span>
+</button></div></div>
+<div class="item"><span>فرايز هلبينو</span><div class="options"><button class="price-btn" onclick="add('فرايز هلبينو','عادي',3000)">
+  <span class="price">3000</span>
+  <span class="size">عادي</span>
+</button></div></div>
+<div class="item"><span>لاكاسا فرايز</span><div class="options"><button class="price-btn" onclick="add('لاكاسا فرايز','خاص',5000)">
+  <span class="price">5000</span>
+  <span class="size">خاص</span>
+</button></div></div>
+</section>
+
+<!-- ================= المقبلات ================= -->
+<section id="sides" class="section">
+<h2>🍽 المقبلات</h2>
+
+<div class="item"><span>مقبلات</span><div class="options">
+<button class="price-btn" onclick="add('مقبلات','صغير',1500)">
+  <span class="price">1500</span>
+  <span class="size">صغير</span>
+</button>
+<button class="price-btn" onclick="add('مقبلات','وسط',3000)">
+  <span class="price">3000</span>
+  <span class="size">وسط</span>
+</button>
+<button class="price-btn" onclick="add('مقبلات','كبير',4000)">
+  <span class="price">4000</span>
+  <span class="size">كبير</span>
+</button>
+</div></div>
+
+<div class="item"><span>أجنحة بافلو</span><div class="options"><button class="price-btn" onclick="add('أجنحة بافلو','عادي',6000)">
+  <span class="price">6000</span>
+  <span class="size">عادي</span>
+</button></div></div>
+<div class="item"><span>ناجوز</span><div class="options"><button class="price-btn" onclick="add('ناجوز','عادي',6000)">
+  <span class="price">6000</span>
+  <span class="size">عادي</span>
+</button></div></div>
+<div class="item"><span>بطاطا وجز</span><div class="options"><button class="price-btn" onclick="add('بطاطا وجز','عادي',2000)">
+  <span class="price">2000</span>
+  <span class="size">عادي</span>
+</button></div></div>
+<div class="item"><span>حلقات بصل</span><div class="options"><button class="price-btn" onclick="add('حلقات بصل','عادي',2000)">
+  <span class="price">2000</span>
+  <span class="size">عادي</span>
+</button></div></div>
+<div class="item"><span>حلقات بصل بالجبن</span><div class="options"><button class="price-btn" onclick="add('حلقات بصل بالجبن','عادي',2500)">
+  <span class="price">2500</span>
+  <span class="size">عادي</span>
+</button></div></div>
+</section>
+
+<!-- ================= المشروبات ================= -->
+<section id="drinks" class="section">
+<h2>🥤 المشروبات</h2>
+
+<div class="item"><span>بيبسي</span><div class="options"><button onclick="add('بيبسي','علبة',500)">500</button></div></div>
+<div class="item"><span>سفن أب</span><div class="options"><button onclick="add('سفن أب','علبة',500)">500</button></div></div>
+<div class="item"><span>ميرندا برتقال</span><div class="options"><button onclick="add('ميرندا برتقال','علبة',500)">500</button></div></div>
+</section>
+
+<button id="cartBtn" onclick="toggleCart()">🛒</button>
+
+<div id="cart" class="cart hidden">
+<h3>سلة الطلب</h3>
+<div id="cartItems"></div>
+
+<input id="name" placeholder="الاسم">
+<input id="phone" placeholder="رقم الهاتف">
+<input id="address" placeholder="العنوان">
+
+<div class="total">المجموع: <span id="total">0</span> د.ع</div>
+
+<button class="send" onclick="send()">إكمال الطلب عبر واتساب</button>
+<button class="close" onclick="toggleCart()">إغلاق</button>
+</div>
+
+<footer>
+    <p style="font-size: 0.8em; color: #666;">جميع الحقوق محفوظة © 2026 مطعم لاكاسا وشركة الواثق</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
